@@ -23,6 +23,13 @@ public class ProdutoService {
                 .collect(Collectors.toList());
     }
 
+    public ProdutoDTO detalhar(Long id) {
+        return new ProdutoDTO(procuraProduto(id));
+/*        return repository.findAll().stream()
+                .map(produto -> new ProdutoDTO(produto.getNomeProduto(), produto.getValor(), produto.getQuantidadeDisponivel()))
+                .collect(Collectors.toList());*/
+    }
+
     @Transactional
     public ProdutoDTO cadastrar(ProdutoDTO produto) {
         Produto novoProduto = new Produto(produto);
@@ -39,7 +46,6 @@ public class ProdutoService {
         return new ProdutoDTO(produto);
     }
 
-
     @Transactional
     public void remover(Long id) {
         Produto produto = procuraProduto(id);
@@ -49,4 +55,5 @@ public class ProdutoService {
     private Produto procuraProduto(Long id) {
         return repository.findById(id).orElseThrow(() -> new ProdutoNotFoundException("Produto não encontrado"));
     }
+
 }

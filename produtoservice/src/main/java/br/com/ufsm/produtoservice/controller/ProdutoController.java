@@ -5,6 +5,7 @@ import br.com.ufsm.produtoservice.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -19,13 +20,18 @@ public class ProdutoController {
         return service.listarTodos();
     }
 
+    @GetMapping("/{id}")
+    public ProdutoDTO detalhar(@PathVariable Long id) {
+        return service.detalhar(id);
+    }
+
     @PostMapping
-    public ProdutoDTO cadastrar(@RequestBody ProdutoDTO dto) {
+    public ProdutoDTO cadastrar(@Valid @RequestBody ProdutoDTO dto) {
         return service.cadastrar(dto);
     }
 
     @PutMapping("/{id}")
-    public ProdutoDTO atualizar(@PathVariable Long id, @RequestBody ProdutoDTO dto) {
+    public ProdutoDTO atualizar(@PathVariable Long id, @Valid @RequestBody ProdutoDTO dto) {
         return service.atualizar(id, dto);
     }
 

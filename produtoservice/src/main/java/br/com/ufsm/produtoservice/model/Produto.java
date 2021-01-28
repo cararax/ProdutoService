@@ -5,7 +5,7 @@ import br.com.ufsm.produtoservice.dto.ProdutoDTO;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "produto")
+@Table(name = "produtos")
 public class Produto {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,6 +31,13 @@ public class Produto {
         this.nomeProduto = produto.getNomeProduto();
         this.valor = produto.getValor();
         this.quantidadeDisponivel = produto.getQuantidadeDisponivel();
+    }
+
+    public Produto(String nomeProduto, Double valor, Integer quantidadeDisponivel) {
+        this.id = id;
+        this.nomeProduto = nomeProduto;
+        this.valor = valor;
+        this.quantidadeDisponivel = quantidadeDisponivel;
     }
 
     public Produto(Long id, String nomeProduto, Double valor, Integer quantidadeDisponivel) {

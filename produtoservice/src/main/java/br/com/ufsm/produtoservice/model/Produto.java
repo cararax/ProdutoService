@@ -1,5 +1,7 @@
 package br.com.ufsm.produtoservice.model;
 
+import br.com.ufsm.produtoservice.dto.ProdutoDTO;
+
 import javax.persistence.*;
 
 @Entity
@@ -13,10 +15,22 @@ public class Produto {
     private String nomeProduto;
     @Column(name = "valor")
     private Double valor;
-    @Column(name = "id")
+    @Column(name = "quantidadeDisponivel")
     private Integer quantidadeDisponivel;
 
     public Produto() {
+    }
+
+    public Produto(Produto produto) {
+        this.nomeProduto = produto.getNomeProduto();
+        this.valor = produto.getValor();
+        this.quantidadeDisponivel = produto.getQuantidadeDisponivel();
+    }
+
+    public Produto(ProdutoDTO produto) {
+        this.nomeProduto = produto.getNomeProduto();
+        this.valor = produto.getValor();
+        this.quantidadeDisponivel = produto.getQuantidadeDisponivel();
     }
 
     public Produto(Long id, String nomeProduto, Double valor, Integer quantidadeDisponivel) {

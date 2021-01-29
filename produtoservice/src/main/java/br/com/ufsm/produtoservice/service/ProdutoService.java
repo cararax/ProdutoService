@@ -1,11 +1,15 @@
 package br.com.ufsm.produtoservice.service;
 
+import br.com.ufsm.produtoservice.ProdutoserviceApplication;
 import br.com.ufsm.produtoservice.dto.PrecoDisponibilidadeDTO;
 import br.com.ufsm.produtoservice.dto.ProdutoDTO;
 import br.com.ufsm.produtoservice.exception.ProdutoNotFoundException;
 import br.com.ufsm.produtoservice.model.Produto;
 import br.com.ufsm.produtoservice.repository.ProdutoRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -16,54 +20,66 @@ import java.util.List;
 
 import java.util.stream.Collectors;
 
+import static org.springframework.http.ResponseEntity.status;
+
 @Service
 public class ProdutoService {
 
     @Autowired
     private ProdutoRepository repository;
 
+    private static final Logger LOGGER= LoggerFactory.getLogger(ProdutoserviceApplication.class);
+
     public List<ProdutoDTO> listarTodos() {
+        LOGGER.info("Response get listar Todos");
         return repository.findAll().stream()
                 .map(ProdutoDTO::new)
                 .collect(Collectors.toList());
+
     }
 
     public ResponseEntity<ProdutoDTO> detalhar(Long id) {
         ProdutoDTO produtoDTO = new ProdutoDTO(procuraProduto(id));
-        return ResponseEntity.ok(produtoDTO);
+        LOGGER.info("Response get detalhar");
+
+        return new ResponseEntity<ProdutoDTO>(produtoDTO, HttpStatus.OK);
     }
 
     @Transactional
     public ResponseEntity<ProdutoDTO> cadastrar(ProdutoDTO produto, UriComponentsBuilder uriBuilder) {
         Produto novoProduto = new Produto(produto);
         Produto produtoSalvo = repository.saveAndFlush(novoProduto);
+        LOGGER.info("cadastrar: produto cadastrado");
         URI uri = uriBuilder.path("/api/produtos/{id}").buildAndExpand(produtoSalvo.getId()).toUri();
+        LOGGER.info("Response produto cadastrado");
         return ResponseEntity.created(uri).body(new ProdutoDTO(produtoSalvo));
-
     }
 
     @Transactional
-    public ResponseEntity<Object> atualizar(Long id, ProdutoDTO novoProduto) {
+    public ResponseEntity<String> atualizar(Long id, ProdutoDTO novoProduto) {
         Produto produto = new Produto(procuraProduto(id));
-        System.out.println(        produto.getId());
-        return ResponseEntity.noContent().build();
+        LOGGER.info("Response put atualizar");
+        return new ResponseEntity<String>("Produto atualizado com sucesso", HttpStatus.NO_CONTENT);
 
     }
 
     @Transactional
-    public ResponseEntity<Object> remover(Long id) {
-        Produto produto = procuraProduto(id);
-        repository.delete(produto);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<String> remover(Long id) {
+        repository.delete(procuraProduto(id));
+        LOGGER.info("Response delete remover");
+        return new ResponseEntity<String>("Produto removido com sucesso", HttpStatus.OK);
     }
 
     private Produto procuraProduto(Long id) {
-        return repository.findById(id).orElseThrow(() -> new ProdutoNotFoundException("Produto não encontrado"));
+        Produto produtoEncontrado = repository.findById(id).orElseThrow(() -> new ProdutoNotFoundException("Produto não encontrado"));
+        LOGGER.info("Produto foi encontrado");
+        return produtoEncontrado;
     }
 
     public ResponseEntity<PrecoDisponibilidadeDTO> precoDisponibilidade(Long id, int quantidade) {
         Produto produto = procuraProduto(id);
         PrecoDisponibilidadeDTO precoDisponibilidade = new PrecoDisponibilidadeDTO(produto.getValor() * quantidade, produto.getQuantidadeDisponivel() >= quantidade);
+        LOGGER.info("Response get preçoDisponibilidade");
         return ResponseEntity.ok(precoDisponibilidade);
     }
 }

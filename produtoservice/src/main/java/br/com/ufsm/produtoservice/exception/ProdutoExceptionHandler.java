@@ -18,37 +18,34 @@ import java.util.Locale;
 @RestControllerAdvice
 public class ProdutoExceptionHandler {
 
-    @Autowired
-    private MessageSource messageSource;
-
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Object> erroValidacaoHandler(MethodArgumentNotValidException exception) {
-        return new ResponseEntity<Object>("Entrada inválida", HttpStatus.BAD_REQUEST);
+    public ResponseEntity<String> erroValidacaoHandler(MethodArgumentNotValidException exception) {
+        return new ResponseEntity<String>("Entrada inválida", HttpStatus.BAD_REQUEST);
     }
 
     @ResponseBody
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<Object> erroTipoValidacaoHandler(MethodArgumentTypeMismatchException exception) {
-        return new ResponseEntity<Object>("Entrada inválida.", HttpStatus.BAD_REQUEST);
+    public ResponseEntity<String> erroTipoValidacaoHandler(MethodArgumentTypeMismatchException exception) {
+        return new ResponseEntity<String>("Entrada inválida.", HttpStatus.BAD_REQUEST);
     }
 
     @ResponseBody
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    ResponseEntity<Object> requestSemCorpoHandler(HttpMessageNotReadableException httpMessageNotReadableException) {
-        return new ResponseEntity<Object>("Impossível realizar operação sem os dados do produto.", HttpStatus.BAD_REQUEST);
+    ResponseEntity<String> requestSemCorpoHandler(HttpMessageNotReadableException httpMessageNotReadableException) {
+        return new ResponseEntity<String>("Impossível realizar operação sem os dados do produto.", HttpStatus.BAD_REQUEST);
 
     }
 
     @ExceptionHandler(ProdutoNotFoundException.class)
-    public ResponseEntity<Object> handleCustomException() throws IOException {
-        return new ResponseEntity<Object>("Produto não encontrado.", HttpStatus.NOT_FOUND);
+    public ResponseEntity<String> handleCustomException() throws IOException {
+        return new ResponseEntity<String>("Produto não encontrado.", HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleException() throws IOException {
-        return new ResponseEntity<Object>("Alguma coisa deu errado", HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<String> handleException() throws IOException {
+        return new ResponseEntity<String>("Alguma coisa deu errado", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

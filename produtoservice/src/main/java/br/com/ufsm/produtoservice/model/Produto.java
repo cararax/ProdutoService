@@ -22,6 +22,7 @@ public class Produto {
     }
 
     public Produto(Produto produto) {
+        this.id = produto.getId();
         this.nomeProduto = produto.getNomeProduto();
         this.valor = produto.getValor();
         this.quantidadeDisponivel = produto.getQuantidadeDisponivel();

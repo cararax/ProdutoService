@@ -45,6 +45,7 @@ public class ProdutoService {
     @Transactional
     public ResponseEntity<Object> atualizar(Long id, ProdutoDTO novoProduto) {
         Produto produto = new Produto(procuraProduto(id));
+        System.out.println(        produto.getId());
         return ResponseEntity.noContent().build();
 
     }

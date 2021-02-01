@@ -35,7 +35,7 @@ public class ProdutoExceptionHandler {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     ResponseEntity<String> requestSemCorpoHandler(HttpMessageNotReadableException httpMessageNotReadableException) {
-        return new ResponseEntity<String>("Impossível realizar operação sem os dados do produto.", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<String>("Impossível realizar operação sem os dados do produto.", HttpStatus.UNPROCESSABLE_ENTITY);
 
     }
 

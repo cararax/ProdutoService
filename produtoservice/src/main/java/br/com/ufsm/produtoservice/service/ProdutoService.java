@@ -59,7 +59,7 @@ public class ProdutoService {
     public ResponseEntity<String> atualizar(Long id, ProdutoDTO novoProduto) {
         Produto produto = new Produto(procuraProduto(id));
         LOGGER.info("Response put atualizar");
-        return new ResponseEntity<String>("Produto atualizado com sucesso", HttpStatus.NO_CONTENT);
+        return new ResponseEntity<String>("Produto atualizado com sucesso", HttpStatus.ACCEPTED);
 
     }
 
@@ -67,7 +67,7 @@ public class ProdutoService {
     public ResponseEntity<String> remover(Long id) {
         repository.delete(procuraProduto(id));
         LOGGER.info("Response delete remover");
-        return new ResponseEntity<String>("Produto removido com sucesso", HttpStatus.OK);
+        return new ResponseEntity<String>("Produto removido com sucesso", HttpStatus.ACCEPTED);
     }
 
     private Produto procuraProduto(Long id) {

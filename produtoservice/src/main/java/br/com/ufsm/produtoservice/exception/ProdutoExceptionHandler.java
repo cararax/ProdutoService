@@ -36,11 +36,15 @@ public class ProdutoExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     ResponseEntity<String> requestSemCorpoHandler(HttpMessageNotReadableException httpMessageNotReadableException) {
         return new ResponseEntity<String>("Impossível realizar operação sem os dados do produto.", HttpStatus.UNPROCESSABLE_ENTITY);
+    }
 
+    @ExceptionHandler(ProdutoIndisponivelException.class)
+    public ResponseEntity<String> produtoIndisponivelHandler(ProdutoIndisponivelException exception) throws IOException {
+        return new ResponseEntity<String>(exception.getMensagem(), HttpStatus.NOT_ACCEPTABLE);
     }
 
     @ExceptionHandler(ProdutoNotFoundException.class)
-    public ResponseEntity<String> handleCustomException() throws IOException {
+    public ResponseEntity<String> produtoNotFoundhandler() throws IOException {
         return new ResponseEntity<String>("Produto não encontrado.", HttpStatus.NOT_FOUND);
     }
 

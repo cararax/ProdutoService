@@ -3,6 +3,8 @@ package br.com.ufsm.produtoservice.service;
 import br.com.ufsm.produtoservice.ProdutoserviceApplication;
 import br.com.ufsm.produtoservice.dto.PrecoDisponibilidadeDTO;
 import br.com.ufsm.produtoservice.dto.ProdutoDTO;
+import br.com.ufsm.produtoservice.dto.ProdutoIdQuantidadeDTO;
+import br.com.ufsm.produtoservice.exception.ProdutoIndisponivelException;
 import br.com.ufsm.produtoservice.exception.ProdutoNotFoundException;
 import br.com.ufsm.produtoservice.model.Produto;
 import br.com.ufsm.produtoservice.repository.ProdutoRepository;
@@ -82,4 +84,23 @@ public class ProdutoService {
         LOGGER.info("Response get preçoDisponibilidade");
         return ResponseEntity.ok(precoDisponibilidade);
     }
+
+    public List<ProdutoIdQuantidadeDTO> verificaPrecoTotalDisponibilidade(List<ProdutoIdQuantidadeDTO> listaProdutos) {
+
+        for(ProdutoIdQuantidadeDTO verificavel : listaProdutos){
+            Produto produto = procuraProduto(verificavel.getId());
+            PrecoDisponibilidadeDTO precoDisponibilidade = new PrecoDisponibilidadeDTO(produto.getValor() * verificavel.getQuantidade(), produto.getQuantidadeDisponivel() >= verificavel.getQuantidade());
+
+            verificavel.setValorTotal(precoDisponibilidade.getPreco());
+            verificavel.setDisponivel(precoDisponibilidade.getDisponibilidade());
+            if(!verificavel.getDisponivel()){
+                throw new ProdutoIndisponivelException("Produto de id "+verificavel.getId()+ " está indisponível para a quantiadade informada e a operação foi encerrada.");
+            }
+        }
+        LOGGER.info("Response post verificaPrecoTotalDisponibilidade");
+
+        return listaProdutos;
+
+    }
+
 }

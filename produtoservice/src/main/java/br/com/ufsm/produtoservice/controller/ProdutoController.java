@@ -3,6 +3,8 @@ package br.com.ufsm.produtoservice.controller;
 import br.com.ufsm.produtoservice.ProdutoserviceApplication;
 import br.com.ufsm.produtoservice.dto.PrecoDisponibilidadeDTO;
 import br.com.ufsm.produtoservice.dto.ProdutoDTO;
+import br.com.ufsm.produtoservice.dto.ProdutoIdQuantidadeDTO;
+import br.com.ufsm.produtoservice.model.Produto;
 import br.com.ufsm.produtoservice.service.ProdutoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/produtos")
@@ -57,8 +61,13 @@ public class ProdutoController {
     @GetMapping("/{id}/{quantidade}")
     ResponseEntity<PrecoDisponibilidadeDTO> precoDisponibilidade(@PathVariable Long id, @PathVariable int quantidade){
         LOGGER.info("Request get preçoDisponibilidade");
-
         return service.precoDisponibilidade(id, quantidade);
+    }
+
+    @PostMapping("/verificaDisponibilidade")
+    ResponseEntity<List<ProdutoIdQuantidadeDTO>> verificaPrecoTotalDisponibilidade(@RequestBody List<ProdutoIdQuantidadeDTO> listaProdutos){
+        LOGGER.info("Request post verificaPrecoTotalDisponibilidade");
+        return ResponseEntity.ok(service.verificaPrecoTotalDisponibilidade(listaProdutos));
     }
 
 

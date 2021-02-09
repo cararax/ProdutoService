@@ -26,7 +26,7 @@ public class ProdutoController {
     @Autowired
     ProdutoService service;
 
-    private static final Logger LOGGER= LoggerFactory.getLogger(ProdutoserviceApplication.class);
+    private static final Logger LOGGER= LoggerFactory.getLogger(ProdutoController.class);
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public List<ProdutoDTO> listarTodos() {

@@ -30,7 +30,7 @@ public class ProdutoService {
     @Autowired
     private ProdutoRepository repository;
 
-    private static final Logger LOGGER= LoggerFactory.getLogger(ProdutoserviceApplication.class);
+    private static final Logger LOGGER= LoggerFactory.getLogger(ProdutoService.class);
 
     public List<ProdutoDTO> listarTodos() {
         LOGGER.info("Response get listar Todos");

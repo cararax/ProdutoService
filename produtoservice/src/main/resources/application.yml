@@ -3,9 +3,6 @@ server:
 
 
 spring:
-  messages:
-    basename: messages/messages
-    encoding: UTF-8
   jpa:
     hibernate:
       ddl-auto: update

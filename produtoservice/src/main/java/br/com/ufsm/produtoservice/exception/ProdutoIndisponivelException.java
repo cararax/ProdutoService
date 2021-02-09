@@ -1,20 +1,15 @@
 package br.com.ufsm.produtoservice.exception;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@Data
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 public class ProdutoIndisponivelException extends RuntimeException{
+
     private String mensagem;
 
-    public ProdutoIndisponivelException(String mensagem) {
-        this.mensagem = mensagem;
-    }
-
-    public ProdutoIndisponivelException() {
-    }
-
-    public String getMensagem() {
-        return mensagem;
-    }
-
-    public void setMensagem(String mensagem) {
-        this.mensagem = mensagem;
-    }
 }
+

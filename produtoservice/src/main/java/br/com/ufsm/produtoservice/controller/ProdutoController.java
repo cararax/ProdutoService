@@ -9,6 +9,7 @@ import br.com.ufsm.produtoservice.service.ProdutoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -27,44 +28,44 @@ public class ProdutoController {
 
     private static final Logger LOGGER= LoggerFactory.getLogger(ProdutoserviceApplication.class);
 
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public List<ProdutoDTO> listarTodos() {
         LOGGER.info("Request get listarTodos");
         return service.listarTodos();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProdutoDTO> detalhar(@PathVariable Long id) {
         LOGGER.info("Request get detalhar");
         return service.detalhar(id);
     }
 
-    @PostMapping
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProdutoDTO> cadastrar(@Valid @RequestBody ProdutoDTO produtoDTO, UriComponentsBuilder uriBuilder) {
         LOGGER.info("Request post cadastrar");
         return service.cadastrar(produtoDTO, uriBuilder);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(path="/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> atualizar(@PathVariable Long id, @Valid @RequestBody ProdutoDTO dto) {
         LOGGER.info("Request put atualizar");
         return service.atualizar(id, dto);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping(path="/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> remover(@PathVariable Long id) {
         LOGGER.info("Request delete remover");
 
         return service.remover(id);
     }
 
-    @GetMapping("/{id}/{quantidade}")
+    @GetMapping(path = "/{id}/{quantidade}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<PrecoDisponibilidadeDTO> precoDisponibilidade(@PathVariable Long id, @PathVariable int quantidade){
         LOGGER.info("Request get preçoDisponibilidade");
         return service.precoDisponibilidade(id, quantidade);
     }
 
-    @PostMapping("/verificaDisponibilidade")
+    @PostMapping(path="/verificaDisponibilidade", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<List<ProdutoIdQuantidadeDTO>> verificaPrecoTotalDisponibilidade(@RequestBody List<ProdutoIdQuantidadeDTO> listaProdutos){
         LOGGER.info("Request post verificaPrecoTotalDisponibilidade");
         return ResponseEntity.ok(service.verificaPrecoTotalDisponibilidade(listaProdutos));

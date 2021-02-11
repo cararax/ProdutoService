@@ -60,6 +60,11 @@ public class ProdutoService {
     @Transactional
     public ResponseEntity<String> atualizar(Long id, ProdutoDTO novoProduto) {
         Produto produto = new Produto(procuraProduto(id));
+        produto.setNomeProduto(novoProduto.getNomeProduto());
+        produto.setValor(novoProduto.getValor());
+        produto.setQuantidadeDisponivel(novoProduto.getQuantidadeDisponivel());
+        repository.save(produto);
+
         LOGGER.info("Response put atualizar");
         return new ResponseEntity<String>("Produto atualizado com sucesso", HttpStatus.ACCEPTED);
 

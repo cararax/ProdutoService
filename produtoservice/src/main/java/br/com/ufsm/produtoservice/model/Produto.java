@@ -8,6 +8,9 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "produtos")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Produto {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +22,7 @@ public class Produto {
     private Double valor;
     @Column(name = "quantidadeDisponivel")
     private Integer quantidadeDisponivel;
-
+    
     public Produto(Produto produto) {
         this.id = produto.getId();
         this.nomeProduto = produto.getNomeProduto();

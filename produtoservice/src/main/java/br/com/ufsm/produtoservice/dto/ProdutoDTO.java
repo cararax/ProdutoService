@@ -2,6 +2,7 @@ package br.com.ufsm.produtoservice.dto;
 
 import br.com.ufsm.produtoservice.model.Produto;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -9,6 +10,7 @@ import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 
 @Data
+@NoArgsConstructor
 public class ProdutoDTO {
 
     @NotEmpty(message = "Insira um nome para o produto.")
@@ -27,5 +29,5 @@ public class ProdutoDTO {
         this.valor = produto.getValor();
         this.quantidadeDisponivel = produto.getQuantidadeDisponivel();
     }
-
+   
 }
